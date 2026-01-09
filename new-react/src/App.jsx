@@ -3,27 +3,62 @@ import './App.css'
 
 function TodoList() {
   // TODO: Store in state.
-  const todoList = [
-    {
-      name: "Read for exam",
-      isComplete: false,
-    },
-    {
-      name: "Complete html day 1",
-      isComplete: true
-    },
-    {
-      name: "Complete html day 2",
-      isComplete: true
-    }
-  ]
+  const [todoList, setTodoList] = useState(
+    [
+      {
+        name: "Read for exam",
+        isComplete: false,
+      },
+      {
+        name: "Complete html day 1",
+        isComplete: true
+      },
+      {
+        name: "Complete html day 2",
+        isComplete: true
+      }
+    ]);
+
+  const [myText, setMyText] = useState("");
 
   return (
-    <ul>
-      {todoList.map(item => {
-        return <li>{item.name}</li>
-      })}
-    </ul>
+    <>
+      <input
+        onChange={(e) => {
+          setMyText(e.target.value)
+        }}
+        value={myText}
+      ></input>
+      <h4>On Input: {myText}</h4>
+      <button onClick={() => {
+        const newArray = [
+          ...todoList,
+          {
+            name: myText,
+            isComplete: false
+          }
+        ]
+
+        setTodoList(
+          newArray
+        )
+        setMyText("")
+      }}
+      >
+        Click to Add
+      </button>
+
+      <ul>
+        {todoList.map(item => {
+          return <><li className={item.isComplete ? "complete" : ""}>{item.name}</li>
+            <button onClick={()=>{
+              // update item isComplete
+            }}>
+              {item.isComplete ? "Revert" : "Complete"}
+            </button></>
+        })}
+      </ul>
+    </>
   )
 }
 
@@ -34,16 +69,8 @@ function Header() {
 }
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <button onClick={() => {
-        setCount(count => count + 1)
-      }}>
-        Click here
-      </button>
-      <h1>Count: {count}</h1>
       <Header />
       <TodoList />
     </>
