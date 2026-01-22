@@ -6,7 +6,7 @@ function TodoList() {
     [
       {
         name: "Read for exam",
-        isComplete: false,
+        isComplete: true,
       },
       {
         name: "Complete html day 1",
@@ -48,10 +48,19 @@ function TodoList() {
       </button>
 
       <ul>
-        {todoList.map(item => {
+        {todoList.map((item, index) => {
           return <><li className={item.isComplete ? "complete" : ""}>{item.name}</li>
             <button onClick={()=>{
-              // update item isComplete
+              const newList = todoList.map((item, itemIndex) => {
+                if(index == itemIndex){
+                 return {
+                  ...item,
+                  isComplete: !item.isComplete
+                 } 
+                }
+                return item;
+              })
+              setTodoList(newList)
             }}>
               {item.isComplete ? "Revert" : "Complete"}
             </button></>
